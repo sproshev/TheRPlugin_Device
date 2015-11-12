@@ -1,5 +1,5 @@
-#ifndef R_UNIVERSAL_DEVICE_SCOPE_PROTECTOR_H
-#define R_UNIVERSAL_DEVICE_SCOPE_PROTECTOR_H
+#ifndef SCOPE_PROTECTOR_H
+#define SCOPE_PROTECTOR_H
 
 #include <Rinternals.h>
 #include <boost/noncopyable.hpp>
@@ -25,4 +25,4 @@ namespace device {
     }
 }
 
-#endif //R_UNIVERSAL_DEVICE_SCOPE_PROTECTOR_H
+#endif // SCOPE_PROTECTOR_H

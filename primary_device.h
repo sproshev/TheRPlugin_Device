@@ -1,5 +1,5 @@
-#ifndef R_UNIVERSAL_DEVICE_PRIMARY_DEVICE_H
-#define R_UNIVERSAL_DEVICE_PRIMARY_DEVICE_H
+#ifndef PRIMARY_DEVICE_H
+#define PRIMARY_DEVICE_H
 
 #include <Rinternals.h>
 #include <R_ext/GraphicsEngine.h>
@@ -24,4 +24,4 @@ namespace device {
     } // primary
 } // device
 
-#endif //R_UNIVERSAL_DEVICE_PRIMARY_DEVICE_H
+#endif // PRIMARY_DEVICE_H
