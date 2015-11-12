@@ -1,12 +1,9 @@
 #include <string.h>
-#include <Rinternals.h>
-#include <R_ext/GraphicsEngine.h>
 
 #include "primary_device.h"
 
 namespace device {
     namespace primary {
-
         namespace {
 
             pDevDesc secondaryDesc() {
@@ -26,11 +23,14 @@ namespace device {
             }
 
             void close(pDevDesc devDesc) {
-                // todo: impl
-            }
+                pDevDesc secondaryDevDesc = secondaryDesc();
 
-            Rboolean locator(double *x, double *y, pDevDesc devDesc) {
-                // todo: impl
+                secondaryDevDesc->close(secondaryDevDesc);
+
+                delete INSTANCE->dev;
+                INSTANCE->dev = NULL;
+
+                INSTANCE = NULL;
             }
 
             void line(double x1, double y1, double x2, double y2, const pGEcontext context, pDevDesc devDesc) {
@@ -51,11 +51,15 @@ namespace device {
             }
 
             void mode(int mode, pDevDesc devDesc) {
-                // todo: impl
+                pDevDesc secondaryDevDesc = secondaryDesc();
+
+                secondaryDevDesc->mode(mode, secondaryDevDesc);
             }
 
             void newPage(const pGEcontext context, pDevDesc devDesc) {
-                // todo: impl
+                pDevDesc secondaryDevDesc = secondaryDesc();
+
+                secondaryDevDesc->newPage(context, secondaryDevDesc);
             }
 
             void polygon(int n, double *x, double *y, const pGEcontext context, pDevDesc devDesc) {
@@ -101,11 +105,16 @@ namespace device {
                         pDevDesc devDesc) {
                 pDevDesc secondaryDevDesc = secondaryDesc();
 
-                secondaryDevDesc->raster(raster, w, h, x, y, width, height, rot, interpolate, context, secondaryDevDesc);
+                secondaryDevDesc->raster(
+                        raster, w, h, x, y, width, height, rot, interpolate, context, secondaryDevDesc
+                );
             }
 
             void size(double *left, double *right, double *bottom, double *top, pDevDesc devDesc) {
-                // todo: impl
+                *left = 0.0;
+                *right = currentWidth;
+                *bottom = currentHeight;
+                *top = 0.0;
             }
 
             double strWidth(const char *str, const pGEcontext context, pDevDesc devDesc) {
@@ -126,10 +135,6 @@ namespace device {
                 secondaryDevDesc->text(x, y, str, rot, hadj, context, secondaryDevDesc);
             }
 
-            Rboolean newFrameConfirm(pDevDesc devDesc) {
-                // todo: impl
-            }
-
             void textUTF8(double x,
                           double y,
                           const char *str,
@@ -147,16 +152,20 @@ namespace device {
 
                 return secondaryDevDesc->strWidthUTF8(str, context, devDesc);
             }
-        }
 
-        void init(const double initWidth, const double initHeight, pGEDevDesc secondaryDevice) {
+        } // anonymous namespace
+
+        void init(pGEDevDesc secondaryDevice) {
             pDevDesc primaryDevDesc = new DevDesc;
             pDevDesc secondaryDevDesc = secondaryDevice->dev;
 
-            primaryDevDesc->left = 0.0;
-            primaryDevDesc->right = initWidth;
-            primaryDevDesc->bottom = initHeight;
-            primaryDevDesc->top = 0.0;
+            size(
+                    &(primaryDevDesc->left),
+                    &(primaryDevDesc->right),
+                    &(primaryDevDesc->bottom),
+                    &(primaryDevDesc->top),
+                    primaryDevDesc
+            );
 
             primaryDevDesc->clipLeft = primaryDevDesc->left;
             primaryDevDesc->clipRight = primaryDevDesc->right;
@@ -199,7 +208,7 @@ namespace device {
             primaryDevDesc->clip = clip;
             primaryDevDesc->close = close;
             primaryDevDesc->deactivate = NULL;
-            primaryDevDesc->locator = locator;
+            primaryDevDesc->locator = NULL;
             primaryDevDesc->line = line;
             primaryDevDesc->metricInfo = metricInfo;
             primaryDevDesc->mode = mode;
@@ -214,7 +223,7 @@ namespace device {
             primaryDevDesc->text = text;
             primaryDevDesc->onExit = NULL;
 
-            primaryDevDesc->newFrameConfirm = newFrameConfirm;
+            primaryDevDesc->newFrameConfirm = NULL;
             primaryDevDesc->hasTextUTF8 = TRUE;
             primaryDevDesc->textUTF8 = textUTF8;
             primaryDevDesc->strWidthUTF8 = strWidthUTF8;
@@ -229,7 +238,7 @@ namespace device {
             primaryDevDesc->haveTransparentBg = 2;
             primaryDevDesc->haveRaster = 2;
             primaryDevDesc->haveCapture = 1;
-            primaryDevDesc->haveLocator = 2;
+            primaryDevDesc->haveLocator = 1;
 
             memset(primaryDevDesc->reserved, 0, 64);
 
