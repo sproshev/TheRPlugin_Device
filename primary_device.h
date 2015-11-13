@@ -13,9 +13,9 @@ namespace device {
 
             pGEDevDesc INSTANCE = NULL;
 
-        } // anonymous namespace
+        } // anonymous
 
-        const char *NAME = "RUniversalDevice";
+        const char* NAME = "RUniversalDevice";
 
         void init(pGEDevDesc secondaryDevice);
 

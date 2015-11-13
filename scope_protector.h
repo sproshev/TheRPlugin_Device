@@ -2,6 +2,7 @@
 #define SCOPE_PROTECTOR_H
 
 #include <Rinternals.h>
+
 #include <boost/noncopyable.hpp>
 #include <memory>
 
@@ -22,7 +23,7 @@ namespace device {
             std::unique_ptr<impl> p_impl;
         };
 
-    }
-}
+    } // scope_protector
+} // device
 
 #endif // SCOPE_PROTECTOR_H

@@ -1,6 +1,6 @@
-#include <string.h>
-
 #include "primary_device.h"
+
+#include <string.h>
 
 namespace device {
     namespace primary {
@@ -41,9 +41,9 @@ namespace device {
 
             void metricInfo(int character,
                             const pGEcontext context,
-                            double *ascent,
-                            double *descent,
-                            double *width,
+                            double* ascent,
+                            double* descent,
+                            double* width,
                             pDevDesc devDesc) {
                 pDevDesc secondaryDevDesc = secondaryDesc();
 
@@ -62,13 +62,13 @@ namespace device {
                 secondaryDevDesc->newPage(context, secondaryDevDesc);
             }
 
-            void polygon(int n, double *x, double *y, const pGEcontext context, pDevDesc devDesc) {
+            void polygon(int n, double* x, double* y, const pGEcontext context, pDevDesc devDesc) {
                 pDevDesc secondaryDevDesc = secondaryDesc();
 
                 secondaryDevDesc->polygon(n, x, y, context, secondaryDevDesc);
             }
 
-            void polyline(int n, double *x, double *y, const pGEcontext context, pDevDesc devDesc) {
+            void polyline(int n, double* x, double* y, const pGEcontext context, pDevDesc devDesc) {
                 pDevDesc secondaryDevDesc = secondaryDesc();
 
                 secondaryDevDesc->polyline(n, x, y, context, secondaryDevDesc);
@@ -80,10 +80,10 @@ namespace device {
                 secondaryDevDesc->rect(x1, y1, x2, y2, context, secondaryDevDesc);
             }
 
-            void path(double *x,
-                      double *y,
+            void path(double* x,
+                      double* y,
                       int npoly,
-                      int *nper,
+                      int* nper,
                       Rboolean winding,
                       const pGEcontext context,
                       pDevDesc devDesc) {
@@ -92,7 +92,7 @@ namespace device {
                 secondaryDevDesc->path(x, y, npoly, nper, winding, context, secondaryDevDesc);
             }
 
-            void raster(unsigned int *raster,
+            void raster(unsigned int* raster,
                         int w,
                         int h,
                         double x,
@@ -110,14 +110,14 @@ namespace device {
                 );
             }
 
-            void size(double *left, double *right, double *bottom, double *top, pDevDesc devDesc) {
+            void size(double* left, double* right, double* bottom, double* top, pDevDesc devDesc) {
                 *left = 0.0;
                 *right = currentWidth;
                 *bottom = currentHeight;
                 *top = 0.0;
             }
 
-            double strWidth(const char *str, const pGEcontext context, pDevDesc devDesc) {
+            double strWidth(const char* str, const pGEcontext context, pDevDesc devDesc) {
                 pDevDesc secondaryDevDesc = secondaryDesc();
 
                 return secondaryDevDesc->strWidth(str, context, secondaryDevDesc);
@@ -125,7 +125,7 @@ namespace device {
 
             void text(double x,
                       double y,
-                      const char *str,
+                      const char* str,
                       double rot,
                       double hadj,
                       const pGEcontext context,
@@ -137,7 +137,7 @@ namespace device {
 
             void textUTF8(double x,
                           double y,
-                          const char *str,
+                          const char* str,
                           double rot,
                           double hadj,
                           const pGEcontext context,
@@ -147,13 +147,13 @@ namespace device {
                 secondaryDevDesc->textUTF8(x, y, str, rot, hadj, context, secondaryDevDesc);
             }
 
-            double strWidthUTF8(const char *str, const pGEcontext context, pDevDesc devDesc) {
+            double strWidthUTF8(const char* str, const pGEcontext context, pDevDesc devDesc) {
                 pDevDesc secondaryDevDesc = secondaryDesc();
 
                 return secondaryDevDesc->strWidthUTF8(str, context, devDesc);
             }
 
-        } // anonymous namespace
+        } // anonymous
 
         void init(pGEDevDesc secondaryDevice) {
             pDevDesc primaryDevDesc = new DevDesc;

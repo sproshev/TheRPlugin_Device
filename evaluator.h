@@ -7,9 +7,9 @@
 namespace device {
     namespace evaluator {
 
-        SEXP evaluate(const std::string &command);
+        SEXP evaluate(const std::string& command);
 
-    }
-}
+    } // evaluator
+} // device
 
 #endif // EVALUATOR_H

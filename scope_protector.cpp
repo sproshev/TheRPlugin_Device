@@ -34,7 +34,8 @@ namespace device {
         void scope_protector::add(SEXP sexp) {
             p_impl->add(sexp);
         }
-    }
-}
+
+    } // scope_protector
+} // device
 
 
