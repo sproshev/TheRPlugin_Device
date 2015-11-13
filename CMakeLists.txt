@@ -5,6 +5,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 include_directories("/usr/share/R/include")
 
-set(SOURCE_FILES primary_device.cpp primary_device.h scope_protector.cpp scope_protector.h)
+set(SOURCE_FILES primary_device.cpp primary_device.h evaluator.cpp evaluator.h scope_protector.cpp scope_protector.h)
 
 add_library(r_universal_device SHARED ${SOURCE_FILES})
