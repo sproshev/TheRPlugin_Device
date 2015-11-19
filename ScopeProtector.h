@@ -15,12 +15,12 @@ class ScopeProtector: boost::noncopyable {
 
   virtual ~ScopeProtector();
 
-  void add(const SEXP sexp);
+  void add(SEXP sexp);
 
  private:
   class Impl;
 
-  std::unique_ptr<Impl> pImpl;
+  const std::unique_ptr<Impl> pImpl;
 };
 
 } // protector

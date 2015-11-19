@@ -9,7 +9,7 @@ namespace slave {
 
 class ScopeSlaveDevice::Impl {
  public:
-  Impl(const double width, const double height) {
+  Impl(double width, double height) {
     boost::format format("grDevices:::png(\"%1%\", %2%, %3%, res = %4%)");
     const std::string command = boost::str(format % "snapshot.png" % width % height % 96);
 
@@ -22,7 +22,11 @@ class ScopeSlaveDevice::Impl {
     GEkillDevice(device);
   }
 
-  void copy(const pDevDesc devDesc) {
+  pDevDesc devDesc() {
+    return device->dev;
+  }
+
+  void copy(pDevDesc devDesc) {
     GEcopyDisplayList(ndevNumber(devDesc));
   }
 
@@ -30,12 +34,16 @@ class ScopeSlaveDevice::Impl {
   pGEDevDesc device;
 };
 
-ScopeSlaveDevice::ScopeSlaveDevice(const double width, const double height) : pImpl(new Impl(width, height)) {
+ScopeSlaveDevice::ScopeSlaveDevice(double width, double height) : pImpl(new Impl(width, height)) {
 }
 
 ScopeSlaveDevice::~ScopeSlaveDevice() = default;
 
-void ScopeSlaveDevice::copy(const pDevDesc devDesc) {
+pDevDesc ScopeSlaveDevice::devDesc() {
+  return pImpl->devDesc();
+}
+
+void ScopeSlaveDevice::copy(pDevDesc devDesc) {
   pImpl->copy(devDesc);
 }
 

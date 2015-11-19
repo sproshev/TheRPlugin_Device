@@ -14,7 +14,7 @@ class ScopeProtector::Impl {
     }
   }
 
-  void add(const SEXP sexp) {
+  void add(SEXP sexp) {
     PROTECT(sexp);
     count++;
   }
@@ -28,7 +28,7 @@ ScopeProtector::ScopeProtector() : pImpl(new Impl) {
 
 ScopeProtector::~ScopeProtector() = default;
 
-void ScopeProtector::add(const SEXP sexp) {
+void ScopeProtector::add(SEXP sexp) {
   pImpl->add(sexp);
 }
 
