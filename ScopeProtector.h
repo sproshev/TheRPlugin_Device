@@ -9,11 +9,11 @@
 namespace device {
 namespace protector {
 
-class scope_protector: boost::noncopyable {
+class ScopeProtector: boost::noncopyable {
  public:
-  scope_protector();
+  ScopeProtector();
 
-  virtual ~scope_protector();
+  virtual ~ScopeProtector();
 
   void add(const SEXP sexp);
 

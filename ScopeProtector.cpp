@@ -1,9 +1,9 @@
-#include "scope_protector.h"
+#include "ScopeProtector.h"
 
 namespace device {
 namespace protector {
 
-class scope_protector::Impl {
+class ScopeProtector::Impl {
  public:
   Impl() : count(0) {
   }
@@ -23,12 +23,12 @@ class scope_protector::Impl {
   int count;
 };
 
-scope_protector::scope_protector() : pImpl(new Impl) {
+ScopeProtector::ScopeProtector() : pImpl(new Impl) {
 }
 
-scope_protector::~scope_protector() = default;
+ScopeProtector::~ScopeProtector() = default;
 
-void scope_protector::add(const SEXP sexp) {
+void ScopeProtector::add(const SEXP sexp) {
   pImpl->add(sexp);
 }
 
