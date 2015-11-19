@@ -1,15 +1,20 @@
 #ifndef EVALUATOR_H
 #define EVALUATOR_H
 
-#include <Rinternals.h>
 #include <string>
 
+#include <Rinternals.h>
+
+#include "ScopeProtector.h"
+
 namespace device {
-    namespace evaluator {
+namespace evaluator {
 
-        SEXP evaluate(const std::string& command);
+void evaluate(const std::string &command);
 
-    } // evaluator
+SEXP evaluate(const std::string &command, device::protector::ScopeProtector *protector);
+
+} // evaluator
 } // device
 
 #endif // EVALUATOR_H
