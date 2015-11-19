@@ -7,21 +7,36 @@
 namespace device {
 namespace slave {
 
-ScopeSlaveDevice::ScopeSlaveDevice(const double width, const double height) {
-  boost::format format("grDevices:::png(\"%1%\", %2%, %3%, res = %4%)");
-  const std::string command = boost::str(format % "snapshot.png" % width % height % 96);
+class ScopeSlaveDevice::Impl {
+ public:
+  Impl(const double width, const double height) {
+    boost::format format("grDevices:::png(\"%1%\", %2%, %3%, res = %4%)");
+    const std::string command = boost::str(format % "snapshot.png" % width % height % 96);
 
-  device::evaluator::evaluate(command);
+    device::evaluator::evaluate(command);
 
-  instance = GEcurrentDevice();
+    device = GEcurrentDevice();
+  }
+
+  virtual ~Impl() {
+    GEkillDevice(device);
+  }
+
+  void copy(const pDevDesc devDesc) {
+    GEcopyDisplayList(ndevNumber(devDesc));
+  }
+
+ private:
+  pGEDevDesc device;
+};
+
+ScopeSlaveDevice::ScopeSlaveDevice(const double width, const double height) : pImpl(new Impl(width, height)) {
 }
 
-ScopeSlaveDevice::~ScopeSlaveDevice() {
-  GEkillDevice(instance);
-}
+ScopeSlaveDevice::~ScopeSlaveDevice() = default;
 
 void ScopeSlaveDevice::copy(const pDevDesc devDesc) {
-  GEcopyDisplayList(ndevNumber(devDesc));
+  pImpl->copy(devDesc);
 }
 
 } // slave

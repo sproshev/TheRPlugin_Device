@@ -11,7 +11,6 @@ namespace slave {
 
 class ScopeSlaveDevice: boost::noncopyable {
  public:
-
   ScopeSlaveDevice(const double width, const double height);
 
   virtual ~ScopeSlaveDevice();
@@ -19,7 +18,9 @@ class ScopeSlaveDevice: boost::noncopyable {
   void copy(const pDevDesc devDesc);
 
  private:
-  pGEDevDesc instance;
+  class Impl;
+
+  std::unique_ptr<Impl> pImpl;
 };
 
 } // slave
