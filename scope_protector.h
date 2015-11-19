@@ -1,29 +1,29 @@
 #ifndef SCOPE_PROTECTOR_H
 #define SCOPE_PROTECTOR_H
 
-#include <Rinternals.h>
-
 #include <boost/noncopyable.hpp>
 #include <memory>
 
+#include <Rinternals.h>
+
 namespace device {
-    namespace scope_protector {
+namespace protector {
 
-        class scope_protector : boost::noncopyable {
-        public:
-            scope_protector();
+class scope_protector: boost::noncopyable {
+ public:
+  scope_protector();
 
-            virtual ~scope_protector();
+  virtual ~scope_protector();
 
-            void add(SEXP sexp);
+  void add(const SEXP sexp);
 
-        private:
-            class impl;
+ private:
+  class Impl;
 
-            std::unique_ptr<impl> p_impl;
-        };
+  std::unique_ptr<Impl> pImpl;
+};
 
-    } // scope_protector
+} // protector
 } // device
 
 #endif // SCOPE_PROTECTOR_H

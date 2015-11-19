@@ -1,41 +1,38 @@
 #include "scope_protector.h"
 
 namespace device {
-    namespace scope_protector {
+namespace protector {
 
-        class scope_protector::impl {
-        public:
-            impl() : count_(0) {
-            }
+class scope_protector::Impl {
+ public:
+  Impl() : count(0) {
+  }
 
-            virtual ~impl() {
-                if (count_ > 0) {
-                    UNPROTECT(count_);
-                }
-            }
+  virtual ~Impl() {
+    if (count > 0) {
+      UNPROTECT(count);
+    }
+  }
 
-            void add(SEXP sexp) {
-                PROTECT(sexp);
-                count_++;
-            }
+  void add(const SEXP sexp) {
+    PROTECT(sexp);
+    count++;
+  }
 
-        private:
-            int count_;
-        };
+ private:
+  int count;
+};
 
-        scope_protector::scope_protector() : p_impl(new impl) {
-        }
+scope_protector::scope_protector() : pImpl(new Impl) {
+}
 
-        scope_protector::~scope_protector() {
-            p_impl->~impl();
-        }
+scope_protector::~scope_protector() = default;
 
+void scope_protector::add(const SEXP sexp) {
+  pImpl->add(sexp);
+}
 
-        void scope_protector::add(SEXP sexp) {
-            p_impl->add(sexp);
-        }
-
-    } // scope_protector
+} // protector
 } // device
 
 
