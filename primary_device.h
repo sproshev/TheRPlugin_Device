@@ -5,23 +5,23 @@
 #include <R_ext/GraphicsEngine.h>
 
 namespace device {
-    namespace primary {
-        namespace {
+namespace master {
+namespace {
 
-            double currentWidth = 0.0;
-            double currentHeight = 0.0;
+const std::string NAME = "RUniversalDevice";
 
-            pGEDevDesc INSTANCE = NULL;
+double currentWidth = 0.0;
+double currentHeight = 0.0;
 
-        } // anonymous
+pGEDevDesc INSTANCE = NULL;
 
-        const char* NAME = "RUniversalDevice";
+} // anonymous
 
-        void init(pGEDevDesc secondaryDevice);
+void init();
 
-        pGEDevDesc instance();
+pGEDevDesc instance();
 
-    } // primary
+} // master
 } // device
 
 #endif // PRIMARY_DEVICE_H

@@ -1,258 +1,286 @@
-#include "primary_device.h"
-
 #include <string.h>
 
+#include "Evaluator.h"
+#include "primary_device.h"
+#include "ScopeSlaveDevice.h"
+
 namespace device {
-    namespace primary {
-        namespace {
+namespace master {
+namespace {
 
-            pDevDesc secondaryDesc() {
-                return ((pGEDevDesc) INSTANCE->dev->deviceSpecific)->dev;
-            }
+using namespace device::slave;
 
-            void circle(double x, double y, double r, const pGEcontext context, pDevDesc devDesc) {
-                pDevDesc secondaryDevDesc = secondaryDesc();
+void circle(double x, double y, double r, const pGEcontext context, pDevDesc devDesc) {
+  ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
+  slaveDevice.copy(INSTANCE->dev);
 
-                secondaryDevDesc->circle(x, y, r, context, secondaryDevDesc);
-            }
+  const pDevDesc slaveDevDesc = slaveDevice.devDesc();
+  slaveDevDesc->circle(x, y, r, context, slaveDevDesc);
+}
 
-            void clip(double x1, double x2, double y1, double y2, pDevDesc devDesc) {
-                pDevDesc secondaryDevDesc = secondaryDesc();
+void clip(double x1, double x2, double y1, double y2, pDevDesc devDesc) {
+  ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
+  slaveDevice.copy(INSTANCE->dev);
 
-                secondaryDevDesc->clip(x1, x2, y1, y2, secondaryDevDesc);
-            }
+  const pDevDesc slaveDevDesc = slaveDevice.devDesc();
+  slaveDevDesc->clip(x1, x2, y1, y2, slaveDevDesc);
+}
 
-            void close(pDevDesc devDesc) {
-                pDevDesc secondaryDevDesc = secondaryDesc();
+void close(pDevDesc devDesc) {
+  delete INSTANCE->dev;
+  INSTANCE->dev = NULL;
 
-                secondaryDevDesc->close(secondaryDevDesc);
+  INSTANCE = NULL;
+}
 
-                delete INSTANCE->dev;
-                INSTANCE->dev = NULL;
+void line(double x1, double y1, double x2, double y2, const pGEcontext context, pDevDesc devDesc) {
+  ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
+  slaveDevice.copy(INSTANCE->dev);
 
-                INSTANCE = NULL;
-            }
+  const pDevDesc slaveDevDesc = slaveDevice.devDesc();
+  slaveDevDesc->line(x1, y1, x2, y2, context, slaveDevDesc);
+}
 
-            void line(double x1, double y1, double x2, double y2, const pGEcontext context, pDevDesc devDesc) {
-                pDevDesc secondaryDevDesc = secondaryDesc();
+void metricInfo(int character,
+                const pGEcontext context,
+                double *ascent,
+                double *descent,
+                double *width,
+                pDevDesc devDesc) {
+  ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
+  slaveDevice.copy(INSTANCE->dev);
 
-                secondaryDevDesc->line(x1, y1, x2, y2, context, secondaryDevDesc);
-            }
+  const pDevDesc slaveDevDesc = slaveDevice.devDesc();
+  slaveDevDesc->metricInfo(character, context, ascent, descent, width, slaveDevDesc);
+}
 
-            void metricInfo(int character,
-                            const pGEcontext context,
-                            double* ascent,
-                            double* descent,
-                            double* width,
-                            pDevDesc devDesc) {
-                pDevDesc secondaryDevDesc = secondaryDesc();
+void mode(int mode, pDevDesc devDesc) {
+  ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
+  slaveDevice.copy(INSTANCE->dev);
 
-                secondaryDevDesc->metricInfo(character, context, ascent, descent, width, secondaryDevDesc);
-            }
+  const pDevDesc slaveDevDesc = slaveDevice.devDesc();
+  slaveDevDesc->mode(mode, slaveDevDesc);
+}
 
-            void mode(int mode, pDevDesc devDesc) {
-                pDevDesc secondaryDevDesc = secondaryDesc();
+void newPage(const pGEcontext context, pDevDesc devDesc) {
+  ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
+  slaveDevice.copy(INSTANCE->dev);
 
-                secondaryDevDesc->mode(mode, secondaryDevDesc);
-            }
+  const pDevDesc slaveDevDesc = slaveDevice.devDesc();
+  slaveDevDesc->newPage(context, slaveDevDesc);
+}
 
-            void newPage(const pGEcontext context, pDevDesc devDesc) {
-                pDevDesc secondaryDevDesc = secondaryDesc();
+void polygon(int n, double *x, double *y, const pGEcontext context, pDevDesc devDesc) {
+  ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
+  slaveDevice.copy(INSTANCE->dev);
 
-                secondaryDevDesc->newPage(context, secondaryDevDesc);
-            }
+  const pDevDesc slaveDevDesc = slaveDevice.devDesc();
+  slaveDevDesc->polygon(n, x, y, context, slaveDevDesc);
+}
 
-            void polygon(int n, double* x, double* y, const pGEcontext context, pDevDesc devDesc) {
-                pDevDesc secondaryDevDesc = secondaryDesc();
+void polyline(int n, double *x, double *y, const pGEcontext context, pDevDesc devDesc) {
+  ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
+  slaveDevice.copy(INSTANCE->dev);
 
-                secondaryDevDesc->polygon(n, x, y, context, secondaryDevDesc);
-            }
+  const pDevDesc slaveDevDesc = slaveDevice.devDesc();
+  slaveDevDesc->polyline(n, x, y, context, slaveDevDesc);
+}
 
-            void polyline(int n, double* x, double* y, const pGEcontext context, pDevDesc devDesc) {
-                pDevDesc secondaryDevDesc = secondaryDesc();
+void rect(double x1, double y1, double x2, double y2, const pGEcontext context, pDevDesc devDesc) {
+  ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
+  slaveDevice.copy(INSTANCE->dev);
 
-                secondaryDevDesc->polyline(n, x, y, context, secondaryDevDesc);
-            }
+  const pDevDesc slaveDevDesc = slaveDevice.devDesc();
+  slaveDevDesc->rect(x1, y1, x2, y2, context, slaveDevDesc);
+}
 
-            void rect(double x1, double y1, double x2, double y2, const pGEcontext context, pDevDesc devDesc) {
-                pDevDesc secondaryDevDesc = secondaryDesc();
+void path(double *x,
+          double *y,
+          int npoly,
+          int *nper,
+          Rboolean winding,
+          const pGEcontext context,
+          pDevDesc devDesc) {
+  ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
+  slaveDevice.copy(INSTANCE->dev);
 
-                secondaryDevDesc->rect(x1, y1, x2, y2, context, secondaryDevDesc);
-            }
+  const pDevDesc slaveDevDesc = slaveDevice.devDesc();
+  slaveDevDesc->path(x, y, npoly, nper, winding, context, slaveDevDesc);
+}
 
-            void path(double* x,
-                      double* y,
-                      int npoly,
-                      int* nper,
-                      Rboolean winding,
-                      const pGEcontext context,
-                      pDevDesc devDesc) {
-                pDevDesc secondaryDevDesc = secondaryDesc();
+void raster(unsigned int *raster,
+            int w,
+            int h,
+            double x,
+            double y,
+            double width,
+            double height,
+            double rot,
+            Rboolean interpolate,
+            const pGEcontext context,
+            pDevDesc devDesc) {
+  ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
+  slaveDevice.copy(INSTANCE->dev);
 
-                secondaryDevDesc->path(x, y, npoly, nper, winding, context, secondaryDevDesc);
-            }
+  const pDevDesc slaveDevDesc = slaveDevice.devDesc();
+  slaveDevDesc->raster(
+      raster, w, h, x, y, width, height, rot, interpolate, context, slaveDevDesc
+  );
+}
 
-            void raster(unsigned int* raster,
-                        int w,
-                        int h,
-                        double x,
-                        double y,
-                        double width,
-                        double height,
-                        double rot,
-                        Rboolean interpolate,
-                        const pGEcontext context,
-                        pDevDesc devDesc) {
-                pDevDesc secondaryDevDesc = secondaryDesc();
+void size(double *left, double *right, double *bottom, double *top, pDevDesc devDesc) {
+  *left = 0.0;
+  *right = currentWidth;
+  *bottom = currentHeight;
+  *top = 0.0;
+}
 
-                secondaryDevDesc->raster(
-                        raster, w, h, x, y, width, height, rot, interpolate, context, secondaryDevDesc
-                );
-            }
+double strWidth(const char *str, const pGEcontext context, pDevDesc devDesc) {
+  ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
+  slaveDevice.copy(INSTANCE->dev);
 
-            void size(double* left, double* right, double* bottom, double* top, pDevDesc devDesc) {
-                *left = 0.0;
-                *right = currentWidth;
-                *bottom = currentHeight;
-                *top = 0.0;
-            }
+  const pDevDesc slaveDevDesc = slaveDevice.devDesc();
+  return slaveDevDesc->strWidth(str, context, slaveDevDesc);
+}
 
-            double strWidth(const char* str, const pGEcontext context, pDevDesc devDesc) {
-                pDevDesc secondaryDevDesc = secondaryDesc();
+void text(double x,
+          double y,
+          const char *str,
+          double rot,
+          double hadj,
+          const pGEcontext context,
+          pDevDesc devDesc) {
+  ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
+  slaveDevice.copy(INSTANCE->dev);
 
-                return secondaryDevDesc->strWidth(str, context, secondaryDevDesc);
-            }
+  const pDevDesc slaveDevDesc = slaveDevice.devDesc();
+  slaveDevDesc->text(x, y, str, rot, hadj, context, slaveDevDesc);
+}
 
-            void text(double x,
-                      double y,
-                      const char* str,
-                      double rot,
-                      double hadj,
-                      const pGEcontext context,
-                      pDevDesc devDesc) {
-                pDevDesc secondaryDevDesc = secondaryDesc();
+void textUTF8(double x,
+              double y,
+              const char *str,
+              double rot,
+              double hadj,
+              const pGEcontext context,
+              pDevDesc devDesc) {
+  ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
+  slaveDevice.copy(INSTANCE->dev);
 
-                secondaryDevDesc->text(x, y, str, rot, hadj, context, secondaryDevDesc);
-            }
+  const pDevDesc slaveDevDesc = slaveDevice.devDesc();
+  slaveDevDesc->textUTF8(x, y, str, rot, hadj, context, slaveDevDesc);
+}
 
-            void textUTF8(double x,
-                          double y,
-                          const char* str,
-                          double rot,
-                          double hadj,
-                          const pGEcontext context,
-                          pDevDesc devDesc) {
-                pDevDesc secondaryDevDesc = secondaryDesc();
+double strWidthUTF8(const char *str, const pGEcontext context, pDevDesc devDesc) {
+  ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
+  slaveDevice.copy(INSTANCE->dev);
 
-                secondaryDevDesc->textUTF8(x, y, str, rot, hadj, context, secondaryDevDesc);
-            }
+  const pDevDesc slaveDevDesc = slaveDevice.devDesc();
+  return slaveDevDesc->strWidthUTF8(str, context, devDesc);
+}
 
-            double strWidthUTF8(const char* str, const pGEcontext context, pDevDesc devDesc) {
-                pDevDesc secondaryDevDesc = secondaryDesc();
+} // anonymous
 
-                return secondaryDevDesc->strWidthUTF8(str, context, devDesc);
-            }
+void init() {
+  ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
 
-        } // anonymous
+  pDevDesc masterDevDesc = new DevDesc;
+  pDevDesc slaveDevDesc = slaveDevice.devDesc();
 
-        void init(pGEDevDesc secondaryDevice) {
-            pDevDesc primaryDevDesc = new DevDesc;
-            pDevDesc secondaryDevDesc = secondaryDevice->dev;
+  size(
+      &(masterDevDesc->left),
+      &(masterDevDesc->right),
+      &(masterDevDesc->bottom),
+      &(masterDevDesc->top),
+      masterDevDesc
+  );
 
-            size(
-                    &(primaryDevDesc->left),
-                    &(primaryDevDesc->right),
-                    &(primaryDevDesc->bottom),
-                    &(primaryDevDesc->top),
-                    primaryDevDesc
-            );
+  masterDevDesc->clipLeft = masterDevDesc->left;
+  masterDevDesc->clipRight = masterDevDesc->right;
+  masterDevDesc->clipBottom = masterDevDesc->bottom;
+  masterDevDesc->clipTop = masterDevDesc->top;
 
-            primaryDevDesc->clipLeft = primaryDevDesc->left;
-            primaryDevDesc->clipRight = primaryDevDesc->right;
-            primaryDevDesc->clipBottom = primaryDevDesc->bottom;
-            primaryDevDesc->clipTop = primaryDevDesc->top;
+  masterDevDesc->xCharOffset = slaveDevDesc->xCharOffset;
+  masterDevDesc->yCharOffset = slaveDevDesc->yCharOffset;
+  masterDevDesc->yLineBias = slaveDevDesc->yLineBias;
+  masterDevDesc->ipr[0] = slaveDevDesc->ipr[0];
+  masterDevDesc->ipr[1] = slaveDevDesc->ipr[1];
 
-            primaryDevDesc->xCharOffset = secondaryDevDesc->xCharOffset;
-            primaryDevDesc->yCharOffset = secondaryDevDesc->yCharOffset;
-            primaryDevDesc->yLineBias = secondaryDevDesc->yLineBias;
-            primaryDevDesc->ipr[0] = secondaryDevDesc->ipr[0];
-            primaryDevDesc->ipr[1] = secondaryDevDesc->ipr[1];
+  masterDevDesc->cra[0] = slaveDevDesc->cra[0];
+  masterDevDesc->cra[1] = slaveDevDesc->cra[1];
+  masterDevDesc->gamma = slaveDevDesc->gamma;
 
-            primaryDevDesc->cra[0] = secondaryDevDesc->cra[0];
-            primaryDevDesc->cra[1] = secondaryDevDesc->cra[1];
-            primaryDevDesc->gamma = secondaryDevDesc->gamma;
+  masterDevDesc->canClip = slaveDevDesc->canClip;
+  masterDevDesc->canChangeGamma = slaveDevDesc->canChangeGamma;
+  masterDevDesc->canHAdj = slaveDevDesc->canHAdj;
 
-            primaryDevDesc->canClip = secondaryDevDesc->canClip;
-            primaryDevDesc->canChangeGamma = secondaryDevDesc->canChangeGamma;
-            primaryDevDesc->canHAdj = secondaryDevDesc->canHAdj;
+  masterDevDesc->startps = slaveDevDesc->startps;
+  masterDevDesc->startcol = slaveDevDesc->startcol;
+  masterDevDesc->startfill = slaveDevDesc->startfill;
+  masterDevDesc->startlty = slaveDevDesc->startlty;
+  masterDevDesc->startfont = slaveDevDesc->startfont;
+  masterDevDesc->startgamma = slaveDevDesc->startgamma;
 
-            primaryDevDesc->startps = secondaryDevDesc->startps;
-            primaryDevDesc->startcol = secondaryDevDesc->startcol;
-            primaryDevDesc->startfill = secondaryDevDesc->startfill;
-            primaryDevDesc->startlty = secondaryDevDesc->startlty;
-            primaryDevDesc->startfont = secondaryDevDesc->startfont;
-            primaryDevDesc->startgamma = secondaryDevDesc->startgamma;
+  masterDevDesc->deviceSpecific = NULL;
 
-            primaryDevDesc->deviceSpecific = secondaryDevice;
+  masterDevDesc->displayListOn = TRUE;
 
-            primaryDevDesc->displayListOn = TRUE;
+  masterDevDesc->canGenMouseDown = FALSE;
+  masterDevDesc->canGenMouseMove = FALSE;
+  masterDevDesc->canGenMouseUp = FALSE;
+  masterDevDesc->canGenKeybd = FALSE;
+  masterDevDesc->gettingEvent = FALSE;
 
-            primaryDevDesc->canGenMouseDown = FALSE;
-            primaryDevDesc->canGenMouseMove = FALSE;
-            primaryDevDesc->canGenMouseUp = FALSE;
-            primaryDevDesc->canGenKeybd = FALSE;
-            primaryDevDesc->gettingEvent = FALSE;
+  masterDevDesc->activate = NULL;
+  masterDevDesc->circle = circle;
+  masterDevDesc->clip = clip;
+  masterDevDesc->close = close;
+  masterDevDesc->deactivate = NULL;
+  masterDevDesc->locator = NULL;
+  masterDevDesc->line = line;
+  masterDevDesc->metricInfo = metricInfo;
+  masterDevDesc->mode = mode;
+  masterDevDesc->newPage = newPage;
+  masterDevDesc->polygon = polygon;
+  masterDevDesc->polyline = polyline;
+  masterDevDesc->rect = rect;
+  masterDevDesc->path = path;
+  masterDevDesc->raster = raster;
+  masterDevDesc->size = size;
+  masterDevDesc->strWidth = strWidth;
+  masterDevDesc->text = text;
+  masterDevDesc->onExit = NULL;
 
-            primaryDevDesc->activate = NULL;
-            primaryDevDesc->circle = circle;
-            primaryDevDesc->clip = clip;
-            primaryDevDesc->close = close;
-            primaryDevDesc->deactivate = NULL;
-            primaryDevDesc->locator = NULL;
-            primaryDevDesc->line = line;
-            primaryDevDesc->metricInfo = metricInfo;
-            primaryDevDesc->mode = mode;
-            primaryDevDesc->newPage = newPage;
-            primaryDevDesc->polygon = polygon;
-            primaryDevDesc->polyline = polyline;
-            primaryDevDesc->rect = rect;
-            primaryDevDesc->path = path;
-            primaryDevDesc->raster = raster;
-            primaryDevDesc->size = size;
-            primaryDevDesc->strWidth = strWidth;
-            primaryDevDesc->text = text;
-            primaryDevDesc->onExit = NULL;
+  masterDevDesc->newFrameConfirm = NULL;
+  masterDevDesc->hasTextUTF8 = TRUE;
+  masterDevDesc->textUTF8 = textUTF8;
+  masterDevDesc->strWidthUTF8 = strWidthUTF8;
+  masterDevDesc->wantSymbolUTF8 = TRUE;
+  masterDevDesc->useRotatedTextInContour = FALSE;
 
-            primaryDevDesc->newFrameConfirm = NULL;
-            primaryDevDesc->hasTextUTF8 = TRUE;
-            primaryDevDesc->textUTF8 = textUTF8;
-            primaryDevDesc->strWidthUTF8 = strWidthUTF8;
-            primaryDevDesc->wantSymbolUTF8 = TRUE;
-            primaryDevDesc->useRotatedTextInContour = FALSE;
+  masterDevDesc->eventEnv = R_NilValue;
+  masterDevDesc->eventHelper = NULL;
+  masterDevDesc->holdflush = NULL;
 
-            primaryDevDesc->eventEnv = R_NilValue;
-            primaryDevDesc->eventHelper = NULL;
-            primaryDevDesc->holdflush = NULL;
+  masterDevDesc->haveTransparency = 2;
+  masterDevDesc->haveTransparentBg = 2;
+  masterDevDesc->haveRaster = 2;
+  masterDevDesc->haveCapture = 1;
+  masterDevDesc->haveLocator = 1;
 
-            primaryDevDesc->haveTransparency = 2;
-            primaryDevDesc->haveTransparentBg = 2;
-            primaryDevDesc->haveRaster = 2;
-            primaryDevDesc->haveCapture = 1;
-            primaryDevDesc->haveLocator = 1;
+  memset(masterDevDesc->reserved, 0, 64);
 
-            memset(primaryDevDesc->reserved, 0, 64);
+  pGEDevDesc masterDevice = GEcreateDevDesc(masterDevDesc);
+  GEaddDevice2(masterDevice, NAME.c_str());
 
-            pGEDevDesc primaryDevice = GEcreateDevDesc(primaryDevDesc);
-            GEaddDevice2(primaryDevice, NAME);
+  Rf_selectDevice(Rf_ndevNumber(masterDevice->dev));
 
-            Rf_selectDevice(Rf_ndevNumber(primaryDevice->dev));
+  INSTANCE = masterDevice;
+}
 
-            INSTANCE = primaryDevice;
-        }
+pGEDevDesc instance() {
+  return INSTANCE;
+}
 
-        pGEDevDesc instance() {
-            return INSTANCE;
-        }
-
-    } // primary
+} // master
 } // device
