@@ -1,7 +1,7 @@
 #include <string.h>
 
 #include "Evaluator.h"
-#include "primary_device.h"
+#include "MasterDevice.h"
 #include "ScopeSlaveDevice.h"
 
 namespace device {

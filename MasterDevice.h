@@ -1,5 +1,5 @@
-#ifndef PRIMARY_DEVICE_H
-#define PRIMARY_DEVICE_H
+#ifndef MASTER_DEVICE_H
+#define MASTER_DEVICE_H
 
 #include <Rinternals.h>
 #include <R_ext/GraphicsEngine.h>
@@ -24,4 +24,4 @@ pGEDevDesc instance();
 } // master
 } // device
 
-#endif // PRIMARY_DEVICE_H
+#endif // MASTER_DEVICE_H
