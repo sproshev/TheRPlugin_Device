@@ -1,7 +1,7 @@
 #include <iostream>
 #include <boost/format.hpp>
 
-#include "evaluator.h"
+#include "Evaluator.h"
 #include "ScopeSlaveDevice.h"
 
 namespace device {

@@ -1,4 +1,4 @@
-#include "evaluator.h"
+#include "Evaluator.h"
 
 #include <R_ext/Parse.h>
 
