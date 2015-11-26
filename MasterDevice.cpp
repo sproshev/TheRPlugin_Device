@@ -1,7 +1,7 @@
 #include <string.h>
 
-#include "Evaluator.h"
 #include "Common.h"
+#include "Evaluator.h"
 #include "MasterDevice.h"
 #include "ScopeSlaveDevice.h"
 

@@ -3,8 +3,6 @@
 
 #include <string>
 
-#include <Rinternals.h>
-
 #include "ScopeProtector.h"
 
 namespace jetbrains {

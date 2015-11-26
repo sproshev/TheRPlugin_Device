@@ -1,8 +1,8 @@
 #ifndef SCOPE_PROTECTOR_H
 #define SCOPE_PROTECTOR_H
 
-#include <boost/noncopyable.hpp>
 #include <memory>
+#include <boost/noncopyable.hpp>
 
 #include <Rinternals.h>
 

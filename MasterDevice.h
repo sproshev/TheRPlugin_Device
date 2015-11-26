@@ -1,6 +1,8 @@
 #ifndef MASTER_DEVICE_H
 #define MASTER_DEVICE_H
 
+#include <string>
+
 #include <Rinternals.h>
 #include <R_ext/GraphicsEngine.h>
 
