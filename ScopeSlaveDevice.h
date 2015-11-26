@@ -6,6 +6,8 @@
 #include <Rinternals.h>
 #include <R_ext/GraphicsEngine.h>
 
+namespace jetbrains {
+namespace ther {
 namespace device {
 namespace slave {
 
@@ -27,5 +29,7 @@ class ScopeSlaveDevice: boost::noncopyable {
 
 } // slave
 } // device
+} // ther
+} // jetbrains
 
 #endif // SCOPE_SLAVE_DEVICE_H
