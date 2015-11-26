@@ -1,16 +1,21 @@
 #include <string.h>
 
 #include "Evaluator.h"
+#include "Common.h"
 #include "MasterDevice.h"
 #include "ScopeSlaveDevice.h"
 
+namespace jetbrains {
+namespace ther {
 namespace device {
 namespace master {
 namespace {
 
-using namespace device::slave;
+using namespace jetbrains::ther::device::slave;
 
 void circle(double x, double y, double r, const pGEcontext context, pDevDesc devDesc) {
+  DEVICE_TRACE;
+
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
   slaveDevice.copy(INSTANCE->dev);
 
@@ -19,6 +24,8 @@ void circle(double x, double y, double r, const pGEcontext context, pDevDesc dev
 }
 
 void clip(double x1, double x2, double y1, double y2, pDevDesc devDesc) {
+  DEVICE_TRACE;
+
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
   slaveDevice.copy(INSTANCE->dev);
 
@@ -27,6 +34,8 @@ void clip(double x1, double x2, double y1, double y2, pDevDesc devDesc) {
 }
 
 void close(pDevDesc devDesc) {
+  DEVICE_TRACE;
+
   delete INSTANCE->dev;
   INSTANCE->dev = NULL;
 
@@ -34,6 +43,8 @@ void close(pDevDesc devDesc) {
 }
 
 void line(double x1, double y1, double x2, double y2, const pGEcontext context, pDevDesc devDesc) {
+  DEVICE_TRACE;
+
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
   slaveDevice.copy(INSTANCE->dev);
 
@@ -47,6 +58,8 @@ void metricInfo(int character,
                 double *descent,
                 double *width,
                 pDevDesc devDesc) {
+  DEVICE_TRACE;
+
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
   slaveDevice.copy(INSTANCE->dev);
 
@@ -55,6 +68,8 @@ void metricInfo(int character,
 }
 
 void mode(int mode, pDevDesc devDesc) {
+  DEVICE_TRACE;
+
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
   slaveDevice.copy(INSTANCE->dev);
 
@@ -63,6 +78,8 @@ void mode(int mode, pDevDesc devDesc) {
 }
 
 void newPage(const pGEcontext context, pDevDesc devDesc) {
+  DEVICE_TRACE;
+
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
   slaveDevice.copy(INSTANCE->dev);
 
@@ -71,6 +88,8 @@ void newPage(const pGEcontext context, pDevDesc devDesc) {
 }
 
 void polygon(int n, double *x, double *y, const pGEcontext context, pDevDesc devDesc) {
+  DEVICE_TRACE;
+
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
   slaveDevice.copy(INSTANCE->dev);
 
@@ -79,6 +98,8 @@ void polygon(int n, double *x, double *y, const pGEcontext context, pDevDesc dev
 }
 
 void polyline(int n, double *x, double *y, const pGEcontext context, pDevDesc devDesc) {
+  DEVICE_TRACE;
+
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
   slaveDevice.copy(INSTANCE->dev);
 
@@ -87,6 +108,8 @@ void polyline(int n, double *x, double *y, const pGEcontext context, pDevDesc de
 }
 
 void rect(double x1, double y1, double x2, double y2, const pGEcontext context, pDevDesc devDesc) {
+  DEVICE_TRACE;
+
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
   slaveDevice.copy(INSTANCE->dev);
 
@@ -101,6 +124,8 @@ void path(double *x,
           Rboolean winding,
           const pGEcontext context,
           pDevDesc devDesc) {
+  DEVICE_TRACE;
+
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
   slaveDevice.copy(INSTANCE->dev);
 
@@ -119,6 +144,8 @@ void raster(unsigned int *raster,
             Rboolean interpolate,
             const pGEcontext context,
             pDevDesc devDesc) {
+  DEVICE_TRACE;
+
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
   slaveDevice.copy(INSTANCE->dev);
 
@@ -129,6 +156,8 @@ void raster(unsigned int *raster,
 }
 
 void size(double *left, double *right, double *bottom, double *top, pDevDesc devDesc) {
+  DEVICE_TRACE;
+
   *left = 0.0;
   *right = currentWidth;
   *bottom = currentHeight;
@@ -136,6 +165,8 @@ void size(double *left, double *right, double *bottom, double *top, pDevDesc dev
 }
 
 double strWidth(const char *str, const pGEcontext context, pDevDesc devDesc) {
+  DEVICE_TRACE;
+
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
   slaveDevice.copy(INSTANCE->dev);
 
@@ -150,6 +181,8 @@ void text(double x,
           double hadj,
           const pGEcontext context,
           pDevDesc devDesc) {
+  DEVICE_TRACE;
+
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
   slaveDevice.copy(INSTANCE->dev);
 
@@ -164,6 +197,8 @@ void textUTF8(double x,
               double hadj,
               const pGEcontext context,
               pDevDesc devDesc) {
+  DEVICE_TRACE;
+
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
   slaveDevice.copy(INSTANCE->dev);
 
@@ -172,6 +207,8 @@ void textUTF8(double x,
 }
 
 double strWidthUTF8(const char *str, const pGEcontext context, pDevDesc devDesc) {
+  DEVICE_TRACE;
+
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
   slaveDevice.copy(INSTANCE->dev);
 
@@ -182,6 +219,8 @@ double strWidthUTF8(const char *str, const pGEcontext context, pDevDesc devDesc)
 } // anonymous
 
 void init() {
+  DEVICE_TRACE;
+
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
 
   pDevDesc masterDevDesc = new DevDesc;
@@ -279,8 +318,12 @@ void init() {
 }
 
 pGEDevDesc instance() {
+  DEVICE_TRACE;
+
   return INSTANCE;
 }
 
 } // master
 } // device
+} // ther
+} // jetbrains
