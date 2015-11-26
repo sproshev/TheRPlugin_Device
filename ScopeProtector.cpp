@@ -1,21 +1,29 @@
+#include "Common.h"
 #include "ScopeProtector.h"
 
+namespace jetbrains {
+namespace ther {
 namespace device {
 namespace protector {
 
 class ScopeProtector::Impl {
  public:
   Impl() : count(0) {
+    DEVICE_TRACE;
   }
 
   virtual ~Impl() {
+    DEVICE_TRACE;
+
     if (count > 0) {
-      UNPROTECT(count);
+      Rf_unprotect(count);
     }
   }
 
   void add(SEXP sexp) {
-    PROTECT(sexp);
+    DEVICE_TRACE;
+
+    Rf_protect(sexp);
     count++;
   }
 
@@ -34,5 +42,7 @@ void ScopeProtector::add(SEXP sexp) {
 
 } // protector
 } // device
+} // ther
+} // jetbrains
 
 

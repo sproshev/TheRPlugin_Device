@@ -6,6 +6,8 @@
 
 #include <Rinternals.h>
 
+namespace jetbrains {
+namespace ther {
 namespace device {
 namespace protector {
 
@@ -25,5 +27,7 @@ class ScopeProtector: boost::noncopyable {
 
 } // protector
 } // device
+} // ther
+} // jetbrains
 
 #endif // SCOPE_PROTECTOR_H
