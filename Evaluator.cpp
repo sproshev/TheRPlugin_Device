@@ -1,12 +1,15 @@
+#include "Common.h"
 #include "Evaluator.h"
 
 #include <R_ext/Parse.h>
 
+namespace jetbrains {
+namespace ther {
 namespace device {
 namespace evaluator {
 namespace {
 
-using device::protector::ScopeProtector;
+using jetbrains::ther::device::protector::ScopeProtector;
 
 SEXP createSexp(const std::string &str, ScopeProtector *protector) {
   SEXP result = Rf_allocVector(STRSXP, 1);
@@ -18,24 +21,22 @@ SEXP createSexp(const std::string &str, ScopeProtector *protector) {
   return result;
 }
 
-SEXP parseSexp(SEXP commandSexp, ScopeProtector *protector) {
-  ParseStatus ps;
+SEXP createExpressionSexp(SEXP strSexp, ScopeProtector *protector) {
+  ParseStatus status;
 
-  SEXP result = R_ParseVector(commandSexp, 1, &ps, R_NilValue);
+  SEXP result = R_ParseVector(strSexp, 1, &status, R_NilValue);
 
   protector->add(result);
 
   return result;
 }
 
-SEXP parseCommand(const std::string &str, ScopeProtector *protector) {
-  return parseSexp(createSexp(str, protector), protector);
+SEXP createExpressionSexp(const std::string &str, ScopeProtector *protector) {
+  return createExpressionSexp(createSexp(str, protector), protector);
 }
 
-SEXP evaluateCommand(SEXP commandSexp, ScopeProtector *protector) {
-  int errorCode = 0;
-
-  SEXP result = R_tryEval(commandSexp, R_GlobalEnv, &errorCode);
+SEXP evaluateExpression(SEXP exprSexp, ScopeProtector *protector) {
+  SEXP result = Rf_eval(exprSexp, R_GlobalEnv);
 
   protector->add(result);
 
@@ -45,19 +46,21 @@ SEXP evaluateCommand(SEXP commandSexp, ScopeProtector *protector) {
 } // anonymous
 
 void evaluate(const std::string &command) {
-  device::protector::ScopeProtector protector;
+  DEVICE_TRACE;
 
-  SEXP commandSexp = parseCommand(command, &protector);
+  jetbrains::ther::device::protector::ScopeProtector protector;
 
-  evaluateCommand(commandSexp, &protector);
+  evaluateExpression(createExpressionSexp(command, &protector), &protector);
 }
 
 
-SEXP evaluate(const std::string &command, device::protector::ScopeProtector *protector) {
-  SEXP commandSexp = parseCommand(command, protector);
+SEXP evaluate(const std::string &command, jetbrains::ther::device::protector::ScopeProtector *protector) {
+  DEVICE_TRACE;
 
-  return evaluateCommand(commandSexp, protector);
+  return evaluateExpression(createExpressionSexp(command, protector), protector);
 }
 
 } // evaluator
 } // device
+} // ther
+} // jetbrains
