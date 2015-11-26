@@ -10,6 +10,7 @@ include_directories("/usr/share/R/include")
 
 set(
         SOURCE_FILES
+        Common.h
         Evaluator.cpp Evaluator.h
         MasterDevice.cpp MasterDevice.h
         ScopeProtector.cpp ScopeProtector.h
