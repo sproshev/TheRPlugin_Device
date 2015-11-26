@@ -12,6 +12,7 @@ set(
         SOURCE_FILES
         Common.h
         Evaluator.cpp Evaluator.h
+        Interface.h
         MasterDevice.cpp MasterDevice.h
         ScopeProtector.cpp ScopeProtector.h
         ScopeSlaveDevice.cpp ScopeSlaveDevice.h
