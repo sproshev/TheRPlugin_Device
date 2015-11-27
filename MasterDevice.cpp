@@ -11,6 +11,13 @@ namespace device {
 namespace master {
 namespace {
 
+const std::string NAME = "TheRPlugin_Device";
+
+double currentWidth = 0.0;
+double currentHeight = 0.0;
+
+pGEDevDesc INSTANCE = NULL;
+
 using namespace jetbrains::ther::device::slave;
 
 void circle(double x, double y, double r, const pGEcontext context, pDevDesc devDesc) {
