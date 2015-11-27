@@ -36,7 +36,7 @@ SEXP createExpressionSexp(const std::string &str, ScopeProtector *protector) {
 }
 
 SEXP evaluateExpression(SEXP exprSexp, ScopeProtector *protector) {
-  SEXP result = Rf_eval(exprSexp, R_GlobalEnv);
+  SEXP result = Rf_eval(VECTOR_ELT(exprSexp, 0), R_GlobalEnv);
 
   protector->add(result);
 
