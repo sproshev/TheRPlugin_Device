@@ -13,14 +13,14 @@ namespace {
 
 const std::string NAME = "TheRPlugin_Device";
 
-double currentWidth = 0.0;
-double currentHeight = 0.0;
+double currentWidth = 640.0;
+double currentHeight = 480.0;
 
 pGEDevDesc INSTANCE = NULL;
 
 using namespace jetbrains::ther::device::slave;
 
-void circle(double x, double y, double r, const pGEcontext context, pDevDesc devDesc) {
+void circle(double x, double y, double r, const pGEcontext context, pDevDesc) {
   DEVICE_TRACE;
 
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
@@ -30,7 +30,7 @@ void circle(double x, double y, double r, const pGEcontext context, pDevDesc dev
   slaveDevDesc->circle(x, y, r, context, slaveDevDesc);
 }
 
-void clip(double x1, double x2, double y1, double y2, pDevDesc devDesc) {
+void clip(double x1, double x2, double y1, double y2, pDevDesc) {
   DEVICE_TRACE;
 
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
@@ -40,7 +40,7 @@ void clip(double x1, double x2, double y1, double y2, pDevDesc devDesc) {
   slaveDevDesc->clip(x1, x2, y1, y2, slaveDevDesc);
 }
 
-void close(pDevDesc devDesc) {
+void close(pDevDesc) {
   DEVICE_TRACE;
 
   delete INSTANCE->dev;
@@ -49,7 +49,7 @@ void close(pDevDesc devDesc) {
   INSTANCE = NULL;
 }
 
-void line(double x1, double y1, double x2, double y2, const pGEcontext context, pDevDesc devDesc) {
+void line(double x1, double y1, double x2, double y2, const pGEcontext context, pDevDesc) {
   DEVICE_TRACE;
 
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
@@ -64,7 +64,7 @@ void metricInfo(int character,
                 double *ascent,
                 double *descent,
                 double *width,
-                pDevDesc devDesc) {
+                pDevDesc) {
   DEVICE_TRACE;
 
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
@@ -74,17 +74,20 @@ void metricInfo(int character,
   slaveDevDesc->metricInfo(character, context, ascent, descent, width, slaveDevDesc);
 }
 
-void mode(int mode, pDevDesc devDesc) {
+void mode(int mode, pDevDesc) {
   DEVICE_TRACE;
 
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
   slaveDevice.copy(INSTANCE->dev);
 
   const pDevDesc slaveDevDesc = slaveDevice.devDesc();
-  slaveDevDesc->mode(mode, slaveDevDesc);
+
+  if (slaveDevDesc->mode != NULL) {
+    slaveDevDesc->mode(mode, slaveDevDesc);
+  }
 }
 
-void newPage(const pGEcontext context, pDevDesc devDesc) {
+void newPage(const pGEcontext context, pDevDesc) {
   DEVICE_TRACE;
 
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
@@ -94,7 +97,7 @@ void newPage(const pGEcontext context, pDevDesc devDesc) {
   slaveDevDesc->newPage(context, slaveDevDesc);
 }
 
-void polygon(int n, double *x, double *y, const pGEcontext context, pDevDesc devDesc) {
+void polygon(int n, double *x, double *y, const pGEcontext context, pDevDesc) {
   DEVICE_TRACE;
 
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
@@ -104,7 +107,7 @@ void polygon(int n, double *x, double *y, const pGEcontext context, pDevDesc dev
   slaveDevDesc->polygon(n, x, y, context, slaveDevDesc);
 }
 
-void polyline(int n, double *x, double *y, const pGEcontext context, pDevDesc devDesc) {
+void polyline(int n, double *x, double *y, const pGEcontext context, pDevDesc) {
   DEVICE_TRACE;
 
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
@@ -114,7 +117,7 @@ void polyline(int n, double *x, double *y, const pGEcontext context, pDevDesc de
   slaveDevDesc->polyline(n, x, y, context, slaveDevDesc);
 }
 
-void rect(double x1, double y1, double x2, double y2, const pGEcontext context, pDevDesc devDesc) {
+void rect(double x1, double y1, double x2, double y2, const pGEcontext context, pDevDesc) {
   DEVICE_TRACE;
 
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
@@ -130,7 +133,7 @@ void path(double *x,
           int *nper,
           Rboolean winding,
           const pGEcontext context,
-          pDevDesc devDesc) {
+          pDevDesc) {
   DEVICE_TRACE;
 
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
@@ -150,7 +153,7 @@ void raster(unsigned int *raster,
             double rot,
             Rboolean interpolate,
             const pGEcontext context,
-            pDevDesc devDesc) {
+            pDevDesc) {
   DEVICE_TRACE;
 
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
@@ -162,7 +165,7 @@ void raster(unsigned int *raster,
   );
 }
 
-void size(double *left, double *right, double *bottom, double *top, pDevDesc devDesc) {
+void size(double *left, double *right, double *bottom, double *top, pDevDesc) {
   DEVICE_TRACE;
 
   *left = 0.0;
@@ -171,7 +174,7 @@ void size(double *left, double *right, double *bottom, double *top, pDevDesc dev
   *top = 0.0;
 }
 
-double strWidth(const char *str, const pGEcontext context, pDevDesc devDesc) {
+double strWidth(const char *str, const pGEcontext context, pDevDesc) {
   DEVICE_TRACE;
 
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
@@ -187,7 +190,7 @@ void text(double x,
           double rot,
           double hadj,
           const pGEcontext context,
-          pDevDesc devDesc) {
+          pDevDesc) {
   DEVICE_TRACE;
 
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
@@ -203,24 +206,34 @@ void textUTF8(double x,
               double rot,
               double hadj,
               const pGEcontext context,
-              pDevDesc devDesc) {
+              pDevDesc) {
   DEVICE_TRACE;
 
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
   slaveDevice.copy(INSTANCE->dev);
 
   const pDevDesc slaveDevDesc = slaveDevice.devDesc();
-  slaveDevDesc->textUTF8(x, y, str, rot, hadj, context, slaveDevDesc);
+
+  if (slaveDevDesc->textUTF8 != NULL) {
+    slaveDevDesc->textUTF8(x, y, str, rot, hadj, context, slaveDevDesc);
+  } else {
+    slaveDevDesc->text(x, y, str, rot, hadj, context, slaveDevDesc);
+  }
 }
 
-double strWidthUTF8(const char *str, const pGEcontext context, pDevDesc devDesc) {
+double strWidthUTF8(const char *str, const pGEcontext context, pDevDesc) {
   DEVICE_TRACE;
 
   ScopeSlaveDevice slaveDevice(currentWidth, currentHeight);
   slaveDevice.copy(INSTANCE->dev);
 
   const pDevDesc slaveDevDesc = slaveDevice.devDesc();
-  return slaveDevDesc->strWidthUTF8(str, context, devDesc);
+
+  if (slaveDevDesc->strWidthUTF8 != NULL) {
+    return slaveDevDesc->strWidthUTF8(str, context, slaveDevDesc);
+  } else {
+    return slaveDevDesc->strWidth(str, context, slaveDevDesc);
+  }
 }
 
 } // anonymous
@@ -292,10 +305,12 @@ void init() {
   masterDevDesc->rect = rect;
   masterDevDesc->path = path;
   masterDevDesc->raster = raster;
+  masterDevDesc->cap = NULL;
   masterDevDesc->size = size;
   masterDevDesc->strWidth = strWidth;
   masterDevDesc->text = text;
   masterDevDesc->onExit = NULL;
+  masterDevDesc->getEvent = NULL;
 
   masterDevDesc->newFrameConfirm = NULL;
   masterDevDesc->hasTextUTF8 = TRUE;
@@ -322,12 +337,6 @@ void init() {
   Rf_selectDevice(Rf_ndevNumber(masterDevice->dev));
 
   INSTANCE = masterDevice;
-}
-
-pGEDevDesc instance() {
-  DEVICE_TRACE;
-
-  return INSTANCE;
 }
 
 } // master

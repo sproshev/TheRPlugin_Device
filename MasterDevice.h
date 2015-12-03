@@ -13,8 +13,6 @@ namespace master {
 
 void init();
 
-pGEDevDesc instance();
-
 } // master
 } // device
 } // ther
