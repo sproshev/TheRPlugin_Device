@@ -3,6 +3,8 @@
 
 #include "MasterDevice.h"
 
+#include <Rinternals.h>
+
 extern "C" SEXP jetbrains_ther_device_init();
 
 #endif // INTERFACE_H
