@@ -10,38 +10,38 @@ namespace device {
 namespace slave {
 namespace {
 
-const int ILLEGAL_DEVICE_NUMBER = -1;
-
 pGEDevDesc INSTANCE = NULL;
 
-pGEDevDesc create(double width, double height) {
+class InitHelper {
+ public:
+  InitHelper() : previousDevice(NULL) {
+    if (!Rf_NoDevices()) {
+      previousDevice = GEcurrentDevice();
+    }
+  }
+
+  virtual ~InitHelper() {
+    if (previousDevice != NULL) {
+      int previousDeviceNumber = Rf_ndevNumber(previousDevice->dev);
+
+      GEcopyDisplayList(previousDeviceNumber);
+      Rf_selectDevice(previousDeviceNumber);
+    }
+  }
+
+ private:
+  pGEDevDesc previousDevice;
+};
+
+pGEDevDesc init(double width, double height) {
+  InitHelper helper; // helper backups and restores active device and copies its display list to slave device
+
   boost::format format("grDevices:::png(\"%1%\", %2%, %3%, res = %4%)");
   const std::string command = str(format % "snapshot.png" % width % height % 96);
 
   evaluator::evaluate(command);
 
   return GEcurrentDevice();
-}
-
-int getCurrentDeviceNumber() {
-  if (!Rf_NoDevices()) {
-    return Rf_ndevNumber(GEcurrentDevice()->dev);
-  } else {
-    return ILLEGAL_DEVICE_NUMBER;
-  }
-}
-
-pGEDevDesc init(double width, double height) {
-  int currentDeviceNumber = getCurrentDeviceNumber();
-
-  pGEDevDesc slaveDevice = create(width, height);
-
-  if (currentDeviceNumber != ILLEGAL_DEVICE_NUMBER) {
-    GEcopyDisplayList(currentDeviceNumber);
-    Rf_selectDevice(currentDeviceNumber);
-  }
-
-  return slaveDevice;
 }
 
 } // anonymous
