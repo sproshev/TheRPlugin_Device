@@ -18,8 +18,6 @@ double currentHeight = 480.0;
 
 pGEDevDesc INSTANCE = NULL;
 
-using namespace jetbrains::ther::device;
-
 pDevDesc getSlaveDevDesc() {
   return slave::instance(currentWidth, currentHeight)->dev;
 }
@@ -84,6 +82,8 @@ void mode(int mode, pDevDesc) {
 
 void newPage(const pGEcontext context, pDevDesc) {
   DEVICE_TRACE;
+
+  slave::newPage();
 
   const pDevDesc slaveDevDesc = getSlaveDevDesc();
   slaveDevDesc->newPage(context, slaveDevDesc);

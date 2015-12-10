@@ -11,6 +11,8 @@ namespace slave {
 
 pGEDevDesc instance(double width, double height);
 
+void newPage();
+
 void dump();
 
 } // slave
