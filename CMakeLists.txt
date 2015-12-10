@@ -15,7 +15,7 @@ set(
         Interface.cpp Interface.h
         MasterDevice.cpp MasterDevice.h
         ScopeProtector.cpp ScopeProtector.h
-        ScopeSlaveDevice.cpp ScopeSlaveDevice.h
+        SlaveDevice.cpp SlaveDevice.h
 )
 
 add_library(therplugin_device SHARED ${SOURCE_FILES})
