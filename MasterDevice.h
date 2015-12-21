@@ -6,7 +6,7 @@ namespace ther {
 namespace device {
 namespace master {
 
-void init();
+void init(const char *snapshotDir);
 
 } // master
 } // device

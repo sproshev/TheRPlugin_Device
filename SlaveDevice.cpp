@@ -35,11 +35,12 @@ class InitHelper {
   pGEDevDesc previousDevice;
 };
 
-pGEDevDesc init(double width, double height) {
+pGEDevDesc init(const std::string &snapshotDir, double width, double height) {
   InitHelper helper; // helper backups and restores active device and copies its display list to slave device
 
-  boost::format format("grDevices:::png(\"%1%%2%%3%\", %4%, %5%, res = %6%)");
-  const std::string command = str(format % "snapshot_" % snapshotNumber % ".png" % width % height % 96);
+  boost::format format("grDevices:::png(\"%1%/snapshot_%2%.png\", %3%, %4%, res = %5%)");
+
+  const std::string command = str(format % snapshotDir % snapshotNumber % width % height % 96);
 
   evaluator::evaluate(command);
 
@@ -48,11 +49,11 @@ pGEDevDesc init(double width, double height) {
 
 } // anonymous
 
-pGEDevDesc instance(double width, double height) {
+pGEDevDesc instance(const std::string &snapshotDir, double width, double height) {
   DEVICE_TRACE;
 
   if (INSTANCE == NULL) {
-    INSTANCE = init(width, height);
+    INSTANCE = init(snapshotDir, width, height);
   }
 
   return INSTANCE;

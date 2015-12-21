@@ -1,7 +1,8 @@
 #ifndef SLAVE_DEVICE_H
 #define SLAVE_DEVICE_H
 
-#include <Rinternals.h>
+#include <string>
+
 #include <R_ext/GraphicsEngine.h>
 
 namespace jetbrains {
@@ -9,7 +10,7 @@ namespace ther {
 namespace device {
 namespace slave {
 
-pGEDevDesc instance(double width, double height);
+pGEDevDesc instance(const std::string &snapshotDir, double width, double height);
 
 void newPage();
 

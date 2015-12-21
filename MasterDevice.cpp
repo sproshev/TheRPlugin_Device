@@ -13,13 +13,14 @@ namespace {
 
 const std::string NAME = "TheRPlugin_Device";
 
+std::string currentSnapshotDir = ".";
 double currentWidth = 640.0;
 double currentHeight = 480.0;
 
 pGEDevDesc INSTANCE = NULL;
 
 pDevDesc getSlaveDevDesc() {
-  return slave::instance(currentWidth, currentHeight)->dev;
+  return slave::instance(currentSnapshotDir, currentWidth, currentHeight)->dev;
 }
 
 void circle(double x, double y, double r, const pGEcontext context, pDevDesc) {
@@ -203,8 +204,10 @@ double strWidthUTF8(const char *str, const pGEcontext context, pDevDesc) {
 
 } // anonymous
 
-void init() {
+void init(const char *snapshotDir) {
   DEVICE_TRACE;
+
+  currentSnapshotDir = snapshotDir;
 
   pDevDesc masterDevDesc = new DevDesc;
   pDevDesc slaveDevDesc = getSlaveDevDesc();

@@ -5,6 +5,6 @@
 
 #include <Rinternals.h>
 
-extern "C" SEXP jetbrains_ther_device_init();
+extern "C" SEXP jetbrains_ther_device_init(SEXP snapshotDir);
 
 #endif // INTERFACE_H
