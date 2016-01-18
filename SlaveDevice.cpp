@@ -1,4 +1,4 @@
-#include <boost/format.hpp>
+#include <sstream>
 
 #include "Evaluator.h"
 #include "Common.h"
@@ -35,14 +35,24 @@ class InitHelper {
   pGEDevDesc previousDevice;
 };
 
+std::string calculateInitCommand(const std::string &snapshotDir, double width, double height) {
+  std::stringstream ss;
+
+  ss << "grDevices:::png" <<
+      "(" <<
+      "\"" << snapshotDir << "/snapshot_" << snapshotNumber << ".png" << "\"" << ", " <<
+      width << ", " <<
+      height << ", " <<
+      "res = 96" <<
+      ")";
+
+  return ss.str();
+}
+
 pGEDevDesc init(const std::string &snapshotDir, double width, double height) {
   InitHelper helper; // helper backups and restores active device and copies its display list to slave device
 
-  boost::format format("grDevices:::png(\"%1%/snapshot_%2%.png\", %3%, %4%, res = %5%)");
-
-  const std::string command = str(format % snapshotDir % snapshotNumber % width % height % 96);
-
-  evaluator::evaluate(command);
+  evaluator::evaluate(calculateInitCommand(snapshotDir, width, height));
 
   return GEcurrentDevice();
 }

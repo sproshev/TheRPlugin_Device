@@ -2,7 +2,6 @@
 #define SCOPE_PROTECTOR_H
 
 #include <memory>
-#include <boost/noncopyable.hpp>
 
 #include <Rinternals.h>
 
@@ -11,9 +10,12 @@ namespace ther {
 namespace device {
 namespace protector {
 
-class ScopeProtector: boost::noncopyable {
+class ScopeProtector {
  public:
   ScopeProtector();
+
+  ScopeProtector(const ScopeProtector &) = delete;
+  ScopeProtector &operator=(const ScopeProtector &) = delete;
 
   virtual ~ScopeProtector();
 
