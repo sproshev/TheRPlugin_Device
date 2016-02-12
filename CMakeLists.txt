@@ -6,6 +6,10 @@ string(TOLOWER ${PROJECT_NAME} TARGET_NAME)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Werror")
 
+if (WIN32)
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -static-libgcc -static -lpthread")
+endif ()
+
 find_package(R)
 find_package(Boost 1.31.0 REQUIRED)
 
